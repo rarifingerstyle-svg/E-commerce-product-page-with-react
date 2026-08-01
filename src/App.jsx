@@ -26,7 +26,8 @@ const thumbnails = [thumb1, thumb2, thumb3, thumb4];
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  // 1. Default quantity diubah dari 0 menjadi 1
+  const [quantity, setQuantity] = useState(1);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -64,11 +65,11 @@ function App() {
   }, [isMobileMenuOpen]);
 
   const handleQuantityChange = (delta) => {
-    setQuantity(Math.max(0, quantity + delta));
+    // Minimal quantity bernilai 1 agar tidak menjadi 0
+    setQuantity(Math.max(1, quantity + delta));
   };
 
   const addToCart = () => {
-    if (quantity === 0) return;
     const existing = cartItems.find(item => item.id === 1);
     if (existing) {
       setCartItems(cartItems.map(item =>
@@ -83,7 +84,8 @@ function App() {
         thumbnail: thumb1
       }]);
     }
-    setQuantity(0);
+    // Setelah dimasukkan ke keranjang, reset ke nilai 1 lagi
+    setQuantity(1);
     setIsCartOpen(true);
   };
 
@@ -92,7 +94,6 @@ function App() {
   };
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.qty, 0);
-  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const openLightbox = (index) => {
     setLightboxIndex(index);
@@ -109,13 +110,11 @@ function App() {
     setLightboxIndex((prev) => (prev === productImages.length - 1 ? 0 : prev + 1));
   };
 
-  const currentImage = isLightboxOpen ? productImages[lightboxIndex] : productImages[selectedIndex];
-
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
     <div className="font-kumbh min-h-screen bg-white relative">
-      {/* Overlay for mobile menu and lightbox */}
+      {/* Overlay untuk mobile menu & lightbox */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black/75 z-40" onClick={toggleMobileMenu} />
       )}
@@ -223,7 +222,8 @@ function App() {
                         </button>
                       </div>
                     ))}
-                    <button className="w-full bg-orange text-white font-bold py-3 rounded-xl hover:opacity-75 transition-opacity">
+                    {/* Tombol Checkout */}
+                    <button className="w-full bg-orange text-white font-bold py-3.5 rounded-xl hover:opacity-75 transition-opacity shadow-md shadow-orange/20 cursor-pointer">
                       Checkout
                     </button>
                   </div>
@@ -297,12 +297,12 @@ function App() {
                 <button
                   key={idx}
                   onClick={() => setSelectedIndex(idx)}
-                  className={`w-24 rounded-xl overflow-hidden border-2 transition-all ${selectedIndex === idx ? "border-orange" : "border-transparent"}`}
+                  className={`w-24 rounded-xl overflow-hidden border-2 transition-all ${selectedIndex === idx ? "border-orange opacity-60" : "border-transparent"}`}
                 >
                   <img
                     src={thumb}
                     alt={`Thumbnail ${idx + 1}`}
-                    className={`w-full aspect-square object-cover ${selectedIndex === idx ? "opacity-40" : ""}`}
+                    className="w-full aspect-square object-cover"
                   />
                 </button>
               ))}
@@ -329,28 +329,32 @@ function App() {
             <div className="text-grayishBlue text-base font-medium line-through mb-6">
               $250.00
             </div>
+
+            {/* Bagian Kontrol Quantity & Tombol Add to Cart */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex items-center bg-lightGrayishBlue rounded-xl overflow-hidden">
+              <div className="flex items-center justify-between bg-lightGrayishBlue rounded-xl px-4 py-3 sm:w-36">
                 <button
                   onClick={() => handleQuantityChange(-1)}
-                  className="px-4 py-3 hover:text-orange transition-colors"
+                  className="hover:opacity-60 transition-opacity p-1"
                 >
-                  <img src={iconMinus} alt="Minus" className="w-4 h-4" />
+                  <img src={iconMinus} alt="Minus" className="w-3 h-3" />
                 </button>
-                <span className="w-12 text-center font-bold text-veryDarkBlue">{quantity}</span>
+                <span className="font-bold text-veryDarkBlue text-base select-none">{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange(1)}
-                  className="px-4 py-3 hover:text-orange transition-colors"
+                  className="hover:opacity-60 transition-opacity p-1"
                 >
-                  <img src={iconPlus} alt="Plus" className="w-4 h-4" />
+                  <img src={iconPlus} alt="Plus" className="w-3 h-3" />
                 </button>
               </div>
+
+              {/* Tombol Add to Cart */}
               <button
                 onClick={addToCart}
-                className="flex-1 bg-orange text-white font-bold py-3 rounded-xl flex items-center justify-center gap-3 hover:opacity-75 transition-opacity shadow-lg shadow-orange/30"
+                className="flex-1 bg-orange text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-3 hover:opacity-75 transition-opacity shadow-lg shadow-orange/30 cursor-pointer"
               >
                 <img src={iconCart} alt="Cart" className="w-5 h-5 filter brightness-0 invert" />
-                Add to cart
+                <span>Add to cart</span>
               </button>
             </div>
           </div>
