@@ -118,10 +118,12 @@ function App() {
         <div className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center" onClick={closeLightbox}>
           <div className="relative max-w-4xl w-full mx-4" onClick={(e) => e.stopPropagation()}>
             <button
+              type="button"
               onClick={closeLightbox}
               className="absolute -top-12 right-0 text-white hover:text-[#ff7d1a] transition-colors"
+              aria-label="Close lightbox"
             >
-              <img src={iconClose} alt="Close" className="w-5 h-5" />
+              <img src={iconClose} alt="" className="w-5 h-5" />
             </button>
             <div className="relative">
               <img
@@ -130,21 +132,26 @@ function App() {
                 className="w-full rounded-2xl aspect-square object-cover"
               />
               <button
+                type="button"
                 onClick={prevImage}
                 className="absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-3 shadow-lg hover:text-[#ff7d1a] transition-colors"
+                aria-label="Previous image"
               >
-                <img src={iconPrev} alt="Previous" className="w-4 h-4" />
+                <img src={iconPrev} alt="" className="w-4 h-4" />
               </button>
               <button
+                type="button"
                 onClick={nextImage}
                 className="absolute right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-3 shadow-lg hover:text-[#ff7d1a] transition-colors"
+                aria-label="Next image"
               >
-                <img src={iconNext} alt="Next" className="w-4 h-4" />
+                <img src={iconNext} alt="" className="w-4 h-4" />
               </button>
             </div>
             <div className="flex justify-center gap-4 mt-6">
               {thumbnails.map((thumb, idx) => (
                 <button
+                  type="button"
                   key={idx}
                   onClick={() => setLightboxIndex(idx)}
                   className={`w-20 rounded-xl overflow-hidden border-2 transition-all ${lightboxIndex === idx ? "border-[#ff7d1a]" : "border-transparent"}`}
@@ -164,8 +171,8 @@ function App() {
       {/* Header */}
       <header className="max-w-7xl mx-auto px-6 py-5 md:py-8 flex items-center justify-between border-b border-gray-200 relative">
         <div className="flex items-center gap-4 md:gap-12">
-          <button onClick={toggleMobileMenu} className="md:hidden">
-            <img src={iconMenu} alt="Menu" className="w-5 h-5" />
+          <button type="button" onClick={toggleMobileMenu} className="md:hidden" aria-label="Open menu">
+            <img src={iconMenu} alt="" className="w-5 h-5" />
           </button>
           <a href="#" className="flex items-center">
             <img src={logo} alt="sneakers" className="h-5 md:h-6" />
@@ -181,10 +188,12 @@ function App() {
         <div className="flex items-center gap-6 md:gap-8">
           <div className="relative" ref={cartRef}>
             <button
+              type="button"
               onClick={() => setIsCartOpen(!isCartOpen)}
               className="relative hover:opacity-75 transition-opacity"
+              aria-label="Cart"
             >
-              <img src={iconCart} alt="Cart" className="w-6 h-6" />
+              <img src={iconCart} alt="" className="w-6 h-6" />
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-[#ff7d1a] text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center leading-4">
                   {totalItems}
@@ -214,14 +223,13 @@ function App() {
                             <span className="text-slate-900 font-bold">${(item.price * item.qty).toFixed(2)}</span>
                           </div>
                         </div>
-                        <button onClick={() => removeFromCart(item.id)} className="hover:opacity-75">
-                          <img src={iconDelete} alt="Remove" className="w-4 h-4" />
+                        <button type="button" onClick={() => removeFromCart(item.id)} className="hover:opacity-75" aria-label="Remove item">
+                          <img src={iconDelete} alt="" className="w-4 h-4" />
                         </button>
                       </div>
                     ))}
                     
-                    {/* Tombol Checkout (Perbaikan Warna Oranye Asli) */}
-                    <button className="w-full bg-[#ff7d1a] hover:bg-[#ffab6a] text-white font-bold py-4 rounded-xl transition-colors shadow-md cursor-pointer block text-center">
+                    <button type="button" className="w-full bg-[#ff7d1a] hover:bg-[#ffab6a] text-white font-bold py-4 rounded-xl transition-colors shadow-md cursor-pointer block text-center">
                       Checkout
                     </button>
                   </div>
@@ -229,15 +237,15 @@ function App() {
               </div>
             )}
           </div>
-          <img src={avatar} alt="Avatar" className="w-8 h-8 md:w-12 md:h-12 rounded-full border-2 border-transparent hover:border-[#ff7d1a] cursor-pointer transition-colors" />
+          <img src={avatar} alt="User Avatar" className="w-8 h-8 md:w-12 md:h-12 rounded-full border-2 border-transparent hover:border-[#ff7d1a] cursor-pointer transition-colors" />
         </div>
       </header>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="fixed inset-y-0 left-0 w-64 bg-white z-50 p-6 shadow-xl">
-          <button onClick={toggleMobileMenu} className="mb-8">
-            <img src={iconClose} alt="Close" className="w-5 h-5" />
+          <button type="button" onClick={toggleMobileMenu} className="mb-8" aria-label="Close menu">
+            <img src={iconClose} alt="" className="w-5 h-5" />
           </button>
           <nav className="flex flex-col gap-5 text-slate-900 font-bold text-lg">
             <a href="#" className="hover:text-[#ff7d1a]">Collections</a>
@@ -256,6 +264,7 @@ function App() {
           <div className="md:w-1/2">
             <div className="relative">
               <button
+                type="button"
                 onClick={() => openLightbox(selectedIndex)}
                 className="w-full block"
               >
@@ -269,22 +278,26 @@ function App() {
               {isMobile && (
                 <>
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedIndex((prev) => (prev === 0 ? productImages.length - 1 : prev - 1));
                     }}
                     className="absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-3 shadow-lg hover:text-[#ff7d1a] transition-colors"
+                    aria-label="Previous image"
                   >
-                    <img src={iconPrev} alt="Previous" className="w-4 h-4" />
+                    <img src={iconPrev} alt="" className="w-4 h-4" />
                   </button>
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedIndex((prev) => (prev === productImages.length - 1 ? 0 : prev + 1));
                     }}
                     className="absolute right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-3 shadow-lg hover:text-[#ff7d1a] transition-colors"
+                    aria-label="Next image"
                   >
-                    <img src={iconNext} alt="Next" className="w-4 h-4" />
+                    <img src={iconNext} alt="" className="w-4 h-4" />
                   </button>
                 </>
               )}
@@ -293,6 +306,7 @@ function App() {
             <div className="hidden md:flex gap-4 mt-6">
               {thumbnails.map((thumb, idx) => (
                 <button
+                  type="button"
                   key={idx}
                   onClick={() => setSelectedIndex(idx)}
                   className={`w-24 rounded-xl overflow-hidden border-2 transition-all ${selectedIndex === idx ? "border-[#ff7d1a] opacity-60" : "border-transparent"}`}
@@ -315,9 +329,10 @@ function App() {
             <h1 className="text-slate-900 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
               Fall Limited Edition Sneakers
             </h1>
+            {/* Menggunakan &apos; untuk menghindari error unescaped entities */}
             <p className="text-slate-500 text-base leading-relaxed mb-6">
               These low-profile sneakers are your perfect casual wear companion.
-              Featuring a durable rubber outer sole, they'll withstand everything
+              Featuring a durable rubber outer sole, they&apos;ll withstand everything
               the weather can offer.
             </p>
             <div className="flex items-center gap-4 mb-2">
@@ -332,37 +347,36 @@ function App() {
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex items-center justify-between bg-slate-100 rounded-xl px-4 py-3.5 sm:w-36">
                 <button
+                  type="button"
                   onClick={() => handleQuantityChange(-1)}
                   className="hover:opacity-60 transition-opacity p-1 cursor-pointer"
+                  aria-label="Decrease quantity"
                 >
-                  <img src={iconMinus} alt="Minus" className="w-3 h-3" />
+                  <img src={iconMinus} alt="" className="w-3 h-3" />
                 </button>
                 <span className="font-bold text-slate-900 text-base select-none">{quantity}</span>
                 <button
+                  type="button"
                   onClick={() => handleQuantityChange(1)}
                   className="hover:opacity-60 transition-opacity p-1 cursor-pointer"
+                  aria-label="Increase quantity"
                 >
-                  <img src={iconPlus} alt="Plus" className="w-3 h-3" />
+                  <img src={iconPlus} alt="" className="w-3 h-3" />
                 </button>
               </div>
 
-              {/* Tombol Add to Cart (Perbaikan Warna Oranye Asli) */}
               <button
+                type="button"
                 onClick={addToCart}
                 className="flex-1 bg-[#ff7d1a] hover:bg-[#ffab6a] text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-3 transition-colors shadow-lg shadow-[#ff7d1a]/30 cursor-pointer"
               >
-                <img src={iconCart} alt="Cart" className="w-5 h-5 filter brightness-0 invert" />
+                <img src={iconCart} alt="" className="w-5 h-5 filter brightness-0 invert" />
                 <span>Add to cart</span>
               </button>
             </div>
           </div>
         </div>
       </main>
-
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
-        .font-kumbh { font-family: 'Kumbh Sans', sans-serif; }
-      `}</style>
     </div>
   );
 }
